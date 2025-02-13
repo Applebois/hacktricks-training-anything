@@ -30,3 +30,7 @@ jobs:
       - name: List Secrets in AWS Secrets Manager
         run: aws secretsmanager list-secrets
         shell: bash
+
+      - name: List Secrets
+        run: aws secretsmanager get-secret-value --secret-id "flag_sts_lab_2"
+        shell: bash
