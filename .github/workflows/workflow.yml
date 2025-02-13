@@ -7,11 +7,14 @@ on:
   workflow_dispatch:
 
 permissions:
-  id-token: write
+  id-token: write  # This applies globally, but ensure it's job-specific too
 
 jobs:
   read-dev:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write  # Ensure OIDC token access inside the job
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -31,16 +34,25 @@ jobs:
         run: aws secretsmanager list-secrets
         shell: bash
 
-      - name: List Assume Tokens
+      - name: Get Caller Identity
         run: aws sts get-caller-identity
         shell: bash
 
-      - name: List Assume Tokens
+      - name: List Attached Role Policies
         run: aws iam list-attached-role-policies --role-name sts-lab-2-target
         shell: bash
 
-      - name: List Assume Tokens
-        run: aws sts assume-role-with-web-identity --role-arn "arn:aws:iam::631973159338:role/sts-lab-2-target" --role-session-name "github-actions" --web-identity-token $ACTIONS_ID_TOKEN_REQUEST_TOKEN --duration-seconds 900
-        shell: bash
+      - name: Manually Retrieve OIDC Token
+        run: |
+          echo "Fetching GitHub OIDC Token..."
+          export ACTIONS_ID_TOKEN_REQUEST_TOKEN=$(curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=sts.amazonaws.com" | jq -r '.value')
+          echo "OIDC Token Retrieved"
 
-        
+      - name: Assume Role Manually
+        run: |
+          aws sts assume-role-with-web-identity \
+            --role-arn "arn:aws:iam::631973159338:role/sts-lab-2-target" \
+            --role-session-name "github-actions" \
+            --web-identity-token "$ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
+            --duration-seconds 900
