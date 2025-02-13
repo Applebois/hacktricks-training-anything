@@ -1,10 +1,11 @@
-name: 'Aws testing'
+name: 'AWS Testing'
 
-# The workflow should only trigger on pull requests to the main branch
 on:
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
-# Required to get the ID Token that will be used for OIDC
 permissions:
   id-token: write
 
@@ -22,5 +23,10 @@ jobs:
           role-to-assume: arn:aws:iam::631973159338:role/sts-lab-2-target
           role-session-name: OIDCSession
 
-      - run: aws s3 ls
+      - name: List IAM Roles
+        run: aws iam list-roles
+        shell: bash
+
+      - name: List Secrets in AWS Secrets Manager
+        run: aws secretsmanager list-secrets
         shell: bash
