@@ -39,20 +39,5 @@ jobs:
         shell: bash
 
       - name: List Attached Role Policies
-        run: aws iam list-attached-role-policies --role-name sts-lab-2-target
+        run: aws secretsmanager list-secrets
         shell: bash
-
-      - name: Manually Retrieve OIDC Token
-        run: |
-          echo "Fetching GitHub OIDC Token..."
-          export ACTIONS_ID_TOKEN_REQUEST_TOKEN=$(curl -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=sts.amazonaws.com" | jq -r '.value')
-          echo "OIDC Token Retrieved"
-
-      - name: Assume Role Manually
-        run: |
-          aws sts assume-role-with-web-identity \
-            --role-arn "arn:aws:iam::631973159338:role/sts-lab-2-target" \
-            --role-session-name "github-actions" \
-            --web-identity-token "$ACTIONS_ID_TOKEN_REQUEST_TOKEN" \
-            --duration-seconds 900
