@@ -59,4 +59,9 @@ jobs:
       - name: Get Caller Identity
         run: aws secretsmanager get-secret-value --secret-id "flag_sts_lab_2-S3iWZT"
         shell: bash          
+
+      - name: Get Caller Identity
+        run: aws sts get-session-token
+        shell: bash      
         
+
