@@ -48,3 +48,6 @@ jobs:
         run: |
           aws iam get-policy --policy-arn "$POLICY_ARN"
 
+      - name: Show Policy Details
+        run: |
+          aws iam get-policy-version --policy-arn "$POLICY_ARN" --version-id v1
