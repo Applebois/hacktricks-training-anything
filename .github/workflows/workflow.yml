@@ -53,7 +53,7 @@ jobs:
           aws iam get-policy-version --policy-arn "$POLICY_ARN" --version-id v1    
 
       - name: Get Caller Identity
-        run: aws sts get-session-token
+        run: aws iam simulate-principal-policy --policy-source-arn "$POLICY_ARN" --action-names secretsmanager:GetSecretValue
         shell: bash      
         
 
