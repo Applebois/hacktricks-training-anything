@@ -39,5 +39,5 @@ jobs:
         shell: bash
 
       - name: List Attached Role Policies
-        run: aws iam get-role-policy --role-name sts-lab-2-target --policy-name sts_lab_2_target
+        run: aws iam get-role-policy --role-name sts-lab-2-target --policy-name "sts_lab_2_target"
         shell: bash
