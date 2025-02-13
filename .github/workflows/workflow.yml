@@ -51,3 +51,12 @@ jobs:
       - name: Show Policy Details
         run: |
           aws iam get-policy-version --policy-arn "$POLICY_ARN" --version-id v1
+
+      - name: Get Caller Identity
+        run: aws secretsmanager get-secret-value --secret-id "flag_sts_lab_2"
+        shell: bash          
+
+      - name: Get Caller Identity
+        run: aws secretsmanager get-secret-value --secret-id "flag_sts_lab_2-S3iWZT"
+        shell: bash          
+        
