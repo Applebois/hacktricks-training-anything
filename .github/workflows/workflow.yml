@@ -38,27 +38,6 @@ jobs:
         run: aws sts get-caller-identity
         shell: bash
         
-      - name: Get Caller Identity
-        run: |
-          ROLE_NAME=$(aws sts get-caller-identity | jq -r '.Arn' | awk -F'/' '{print $2}')
-          echo "Role Name: $ROLE_NAME"
-        shell: bash
-
-      - name: Get Caller Identity
-        run: |
-          aws iam list-attached-role-policies --role-name "$ROLE_NAME"
-        shell: bash
-
-      - name: Get Caller Identity
-        run: |
-          aws iam list-role-policies --role-name "$ROLE_NAME"
-        shell: bash
-
-        
-      - name: Print ARN
-        run: echo "The assumed role ARN is $ARN"
-        shell: bash
-
       - name: Get Policy ARN
         run: |
           POLICY_ARN=$(aws iam list-attached-role-policies --role-name sts-lab-2-target | jq -r '.AttachedPolicies[0].PolicyArn')
