@@ -54,4 +54,4 @@ jobs:
 
       - name: Show Policy Details
         run: |
-          aws iam list-attached-role-policies --role-name sts-lab-2-target --profile assumed-role-profile
+          aws iam list-attached-role-policies --role-name sts-lab-2-target
