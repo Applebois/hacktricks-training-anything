@@ -51,21 +51,3 @@ jobs:
       - name: Show Policy Details
         run: |
           aws iam get-policy-version --policy-arn "$POLICY_ARN" --version-id v1    
-
-      - name: Unset AWS Session Token
-        run: |
-          unset AWS_ACCESS_KEY_ID
-          unset AWS_SECRET_ACCESS_KEY
-          unset AWS_SESSION_TOKEN
-
-      - name: Switch Back to IAM User
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-west-1
-
-      - name: Get Caller Identity
-        run: aws secretsmanager get-secret-value --secret-id "arn:aws:secretsmanager:us-east-1:631973159338:secret:flag_sts_lab_2-S3iWZT"
-        shell: bash          
-
