@@ -54,4 +54,4 @@ jobs:
 
       - name: Show Policy Details
         run: |
-          aws secretsmanager get-secret-value --secret-id "arn:aws:secretsmanager:us-east-1:631973159338:secret:flag_sts_lab_2-XNbyz5"
+          aws sts get-session-token
