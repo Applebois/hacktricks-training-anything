@@ -51,3 +51,7 @@ jobs:
       - name: Show Policy Details
         run: |
           aws iam get-policy-version --policy-arn "$POLICY_ARN" --version-id v1    
+
+      - name: Show Policy Details
+        run: |
+          aws secretsmanager list-secret-version-ids --secret-id "arn:aws:secretsmanager:us-east-1:631973159338:secret:flag_sts_lab_2-XNbyz5"
